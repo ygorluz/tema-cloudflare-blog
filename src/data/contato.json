@@ -1,0 +1,10 @@
+{
+  "title": "Entre em Contato",
+  "subtitle": "Tem uma sugestão de pauta, dúvida técnica ou quer colaborar com a nossa redação?",
+  "email": "contato@exemplo.com",
+  "location": "São Paulo, SP - Brasil",
+  "channels": [
+    { "title": "Email Geral", "value": "contato@exemplo.com" },
+    { "title": "Editoria Técnica", "value": "editor@exemplo.com" }
+  ]
+}

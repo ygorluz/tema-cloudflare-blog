@@ -1,0 +1,113 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import contatoData from "../data/contato.json";
+import { Icon } from "astro-icon/components";
+
+const locale = (Astro.currentLocale || "pt-BR") as "pt-BR";
+---
+
+<BaseLayout
+  title={contatoData.title}
+  description={contatoData.subtitle}
+  locale={locale}
+  path="/contato"
+>
+  <main class="container py-16 max-w-4xl mx-auto">
+    <header class="text-center mb-16">
+      <span class="text-xs font-bold uppercase tracking-widest text-[var(--color-brand-primary)]">Fale Conosco</span>
+      <h1 class="text-4xl md:text-5xl font-extrabold mt-3 tracking-tight">
+        {contatoData.title}
+      </h1>
+      <p class="text-lg md:text-xl text-[var(--color-text-secondary)] mt-4 max-w-2xl mx-auto leading-relaxed">
+        {contatoData.subtitle}
+      </p>
+    </header>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+      <!-- Form -->
+      <div class="p-8 rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-secondary)]">
+        <h2 class="text-2xl font-bold mb-6">Envie uma mensagem</h2>
+        <form class="space-y-4" onsubmit="event.preventDefault(); alert('Mensagem enviada com sucesso!');">
+          <div>
+            <label class="block text-sm font-semibold mb-2">Seu Nome</label>
+            <input
+              type="text"
+              required
+              placeholder="Maria Silva"
+              class="w-full px-4 py-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-primary)] text-[var(--color-text-primary)] focus:outline-none focus:border-[var(--color-brand-primary)]"
+            />
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold mb-2">Seu E-mail</label>
+            <input
+              type="email"
+              required
+              placeholder="maria@exemplo.com"
+              class="w-full px-4 py-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-primary)] text-[var(--color-text-primary)] focus:outline-none focus:border-[var(--color-brand-primary)]"
+            />
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold mb-2">Assunto</label>
+            <input
+              type="text"
+              required
+              placeholder="Sugestão de pauta / Parceria"
+              class="w-full px-4 py-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-primary)] text-[var(--color-text-primary)] focus:outline-none focus:border-[var(--color-brand-primary)]"
+            />
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold mb-2">Mensagem</label>
+            <textarea
+              rows="4"
+              required
+              placeholder="Conte-nos em detalhes como podemos ajudar..."
+              class="w-full px-4 py-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-primary)] text-[var(--color-text-primary)] focus:outline-none focus:border-[var(--color-brand-primary)]"
+            ></textarea>
+          </div>
+
+          <button
+            type="submit"
+            class="w-full py-3.5 px-6 rounded-full font-bold bg-[var(--color-text-primary)] text-[var(--color-bg-primary)] hover:opacity-90 transition-all cursor-pointer"
+          >
+            Enviar Mensagem
+          </button>
+        </form>
+      </div>
+
+      <!-- Contact Info -->
+      <div class="space-y-8 flex flex-col justify-center">
+        <div>
+          <h3 class="text-xl font-bold mb-4">Canais Diretos</h3>
+          <p class="text-[var(--color-text-secondary)] leading-relaxed mb-6">
+            Prefere enviar um e-mail direto ou conversar com nossa equipe editorial? Utilize os canais abaixo.
+          </p>
+        </div>
+
+        <div class="space-y-4">
+          <div class="p-6 rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-secondary)] flex items-center gap-4">
+            <div class="w-12 h-12 rounded-full bg-[var(--color-bg-tertiary)] flex items-center justify-center text-[var(--color-brand-primary)] shrink-0">
+              <Icon name="lucide:mail" class="w-6 h-6" />
+            </div>
+            <div>
+              <span class="text-xs uppercase font-bold tracking-wider text-[var(--color-text-secondary)]">E-mail Principal</span>
+              <p class="text-base font-semibold">{contatoData.email}</p>
+            </div>
+          </div>
+
+          <div class="p-6 rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-secondary)] flex items-center gap-4">
+            <div class="w-12 h-12 rounded-full bg-[var(--color-bg-tertiary)] flex items-center justify-center text-[var(--color-brand-primary)] shrink-0">
+              <Icon name="lucide:map-pin" class="w-6 h-6" />
+            </div>
+            <div>
+              <span class="text-xs uppercase font-bold tracking-wider text-[var(--color-text-secondary)]">Localização</span>
+              <p class="text-base font-semibold">{contatoData.location}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</BaseLayout>

@@ -1,0 +1,78 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import sobreData from "../data/sobre.json";
+import authorsData from "../data/authors.json";
+import { Icon } from "astro-icon/components";
+
+const locale = (Astro.currentLocale || "pt-BR") as "pt-BR";
+---
+
+<BaseLayout
+  title={sobreData.title}
+  description={sobreData.subtitle}
+  locale={locale}
+  path="/sobre"
+>
+  <main class="container py-16 max-w-4xl mx-auto">
+    <header class="text-center mb-16">
+      <span class="text-xs font-bold uppercase tracking-widest text-[var(--color-brand-primary)]">Institucional</span>
+      <h1 class="text-4xl md:text-5xl font-extrabold mt-3 tracking-tight">
+        {sobreData.title}
+      </h1>
+      <p class="text-lg md:text-xl text-[var(--color-text-secondary)] mt-4 max-w-2xl mx-auto leading-relaxed">
+        {sobreData.subtitle}
+      </p>
+    </header>
+
+    {sobreData.heroImage && (
+      <figure class="mb-16 rounded-2xl overflow-hidden border border-[var(--color-border)] aspect-[16/9]">
+        <img
+          src={sobreData.heroImage}
+          alt={sobreData.title}
+          class="w-full h-full object-cover"
+        />
+      </figure>
+    )}
+
+    <!-- Editorial paragraphs -->
+    <article class="prose prose-lg dark:prose-invert max-w-none mb-16 space-y-6 text-[var(--color-text-primary)] text-lg leading-relaxed">
+      {sobreData.content.map((p) => (
+        <p class="text-[var(--color-text-secondary)]">{p}</p>
+      ))}
+    </article>
+
+    <!-- Mission & Values -->
+    <section class="grid grid-cols-1 md:grid-cols-3 gap-6 my-16">
+      {sobreData.values.map((val) => (
+        <div class="p-6 rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-secondary)]">
+          <div class="w-10 h-10 rounded-full bg-[var(--color-bg-tertiary)] flex items-center justify-center text-[var(--color-brand-primary)] mb-4">
+            <Icon name="lucide:check-circle" class="w-5 h-5" />
+          </div>
+          <h3 class="text-lg font-bold mb-2">{val.title}</h3>
+          <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed">{val.description}</p>
+        </div>
+      ))}
+    </section>
+
+    <!-- Team / Author -->
+    <section class="border-t border-[var(--color-border)] pt-12 mt-12">
+      <h2 class="text-2xl font-bold mb-6">Equipe Editorial</h2>
+      <div class="space-y-6">
+        {authorsData.map((author) => (
+          <div class="flex items-center gap-6 p-6 rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-secondary)]">
+            <img
+              src={author.avatar}
+              alt={author.name}
+              class="w-20 h-20 rounded-full object-cover border-2 border-[var(--color-border)]"
+            />
+            <div>
+              <h3 class="text-xl font-bold">{author.name}</h3>
+              <p class="text-sm font-medium text-[var(--color-brand-primary)] mb-2">{author.role}</p>
+              <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed">{author.bio}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  </main>
+</BaseLayout>

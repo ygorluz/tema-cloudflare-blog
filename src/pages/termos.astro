@@ -1,0 +1,57 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import termsData from "../data/terms.json";
+
+const locale = (Astro.currentLocale || "pt-BR") as "pt-BR";
+---
+
+<BaseLayout
+  title={termsData.title}
+  description="Termos de uso e diretrizes da plataforma."
+  locale={locale}
+  path="/termos"
+>
+  <article class="legal-page container">
+    <header class="legal-page__head">
+      <p class="legal-page__eyebrow">Institucional</p>
+      <h1>{termsData.title}</h1>
+      <p class="text-sm text-[var(--color-text-secondary)] mt-2">Última atualização: {termsData.lastUpdated}</p>
+    </header>
+
+    <div class="legal-page__content space-y-8">
+      {termsData.sections.map((sec) => (
+        <div>
+          <h2 class="text-xl font-bold mb-3">{sec.heading}</h2>
+          <p class="text-[var(--color-text-secondary)] leading-relaxed">{sec.text}</p>
+        </div>
+      ))}
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .legal-page {
+    padding-block: var(--space-2xl);
+    max-width: 48rem;
+    margin: 0 auto;
+  }
+  .legal-page__head {
+    margin-bottom: var(--space-2xl);
+    padding-bottom: var(--space-lg);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .legal-page__eyebrow {
+    margin: 0 0 var(--space-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-brand-primary);
+  }
+  .legal-page h1 {
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+</style>

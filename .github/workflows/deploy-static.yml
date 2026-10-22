@@ -1,0 +1,69 @@
+name: Deploy Static HTML
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Dependencies
+        run: npm install --legacy-peer-deps
+
+      - name: Build Static Site
+        run: npm run build
+
+      - name: Deploy to Static Repository
+        env:
+          STATIC_TOKEN: ${{ secrets.STATIC_DEPLOY_TOKEN }}
+          TARGET_REPO: ${{ github.repository_owner }}/${{ github.event.repository.name }}-static
+        run: |
+          OUT_DIR=""
+          if [ -d ".vercel/output/static" ]; then
+            OUT_DIR=".vercel/output/static"
+          elif [ -d "dist/client" ]; then
+            OUT_DIR="dist/client"
+          elif [ -d "dist" ]; then
+            OUT_DIR="dist"
+          fi
+
+          if [ -z "$OUT_DIR" ]; then
+            echo "Pasta de saida estatica nao encontrada!"
+            exit 1
+          fi
+
+          # Preserva automações de deploy (ex: FTP) para o repositório estático
+          mkdir -p "$OUT_DIR/.github/workflows"
+          if [ -f ".github/workflows/ftp-deploy.yml" ]; then
+            echo "Injetando workflow de FTP no pacote estatico..."
+            cp ".github/workflows/ftp-deploy.yml" "$OUT_DIR/.github/workflows/deploy.yml"
+          else
+            curl -s -f -H "Authorization: token ${STATIC_TOKEN}" \
+              "https://raw.githubusercontent.com/${TARGET_REPO}/main/.github/workflows/deploy.yml" \
+              -o "$OUT_DIR/.github/workflows/deploy.yml" || true
+            if [ ! -s "$OUT_DIR/.github/workflows/deploy.yml" ]; then
+              rm -rf "$OUT_DIR/.github"
+            fi
+          fi
+
+          echo "Publicando conteudo de: $OUT_DIR"
+          cd "$OUT_DIR"
+
+          git init
+          git config user.name "MSIA Bot"
+          git config user.email "bot@meusitecomia.com"
+          git checkout -b main
+          git add -A
+          git commit -m "deploy: static build $(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+          git push -f "https://x-access-token:${STATIC_TOKEN}@github.com/${TARGET_REPO}.git" main

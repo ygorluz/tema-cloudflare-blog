@@ -1,0 +1,22 @@
+{
+  "title": "Política de Privacidade",
+  "lastUpdated": "2026-10-22",
+  "sections": [
+    {
+      "heading": "1. Introdução",
+      "text": "Esta política descreve como respeitamos e protegemos a sua privacidade ao acessar o nosso blog. Não coletamos dados pessoais desnecessários nem comercializamos suas informações."
+    },
+    {
+      "heading": "2. Coleta de Informações",
+      "text": "Podemos coletar métricas agregadas e anônimas de visualizações de páginas para entender quais temas técnicos são mais úteis para os leitores. Se você nos enviar um e-mail ou se inscrever em nossa newsletter, utilizaremos seu endereço exclusivamente para essa finalidade."
+    },
+    {
+      "heading": "3. Cookies e Rastreamento",
+      "text": "Priorizamos uma experiência livre de cookies invasivos de terceiros. Armazenamentos locais podem ser utilizados apenas para salvar sua preferência de tema (claro/escuro)."
+    },
+    {
+      "heading": "4. Seus Direitos (LGPD)",
+      "text": "Você tem total direito de solicitar a exclusão de qualquer dado fornecido voluntariamente a qualquer momento entrando em contato pelo e-mail contato@exemplo.com."
+    }
+  ]
+}

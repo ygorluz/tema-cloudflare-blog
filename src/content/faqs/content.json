@@ -1,0 +1,7 @@
+{
+  "question": "Como adicionar um novo artigo ao blog?",
+  "answer": "Crie um arquivo Markdown ou MDX na pasta `src/content/blog/` com os campos `title`, `description`, `publishDate` e `tags`. Ao fazer commit no repositório, o build estático compilará a nova página automaticamente.",
+  "category": "content",
+  "order": 1,
+  "locale": "pt-BR"
+}

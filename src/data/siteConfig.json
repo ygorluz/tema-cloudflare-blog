@@ -1,0 +1,23 @@
+{
+  "name": "Cloudflare Editorial",
+  "description": "Um blog moderno, ultra-rápido e focado em engenharia de software, edge computing e inteligência artificial.",
+  "url": "https://tema-cloudflare-blog.pages.dev",
+  "author": "Redação Editorial",
+  "language": "pt-BR",
+  "logo": "",
+  "theme": {
+    "primary": "#f38020",
+    "accent": "#0051c3",
+    "mode": "system"
+  },
+  "social": {
+    "github": "https://github.com/ygorluz/tema-cloudflare-blog",
+    "twitter": "https://twitter.com",
+    "linkedin": "https://linkedin.com",
+    "rss": "/rss.xml"
+  },
+  "contact": {
+    "email": "contato@exemplo.com",
+    "name": "Equipe Editorial"
+  }
+}

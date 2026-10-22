@@ -1,0 +1,14 @@
+# Site Settings
+name: "Cloudflare Editorial"
+description: "Um blog moderno, ultra-rápido e focado em engenharia de software, edge computing e inteligência artificial."
+url: "https://tema-cloudflare-blog.pages.dev"
+defaultLocale: pt-BR
+analyticsProvider: none
+gtmId: ""
+umamiUrl: ""
+umamiId: ""
+mapLatitude: ""
+mapLongitude: ""
+orgName: "Cloudflare Editorial"
+orgEmail: "contato@exemplo.com"
+socialLinks: []

@@ -1,0 +1,22 @@
+{
+  "title": "Termos de Uso",
+  "lastUpdated": "2026-10-22",
+  "sections": [
+    {
+      "heading": "1. Aceitação dos Termos",
+      "text": "Ao acessar e navegar por este blog, você concorda com os presentes Termos de Uso e com todas as leis e regulamentos aplicáveis."
+    },
+    {
+      "heading": "2. Propriedade Intelectual",
+      "text": "Os textos, análises e tutoriais originais são protegidos por direitos autorais. Exemplos e snippets de código estão licenciados sob MIT, salvo indicação em contrário no próprio artigo."
+    },
+    {
+      "heading": "3. Isenção de Responsabilidade",
+      "text": "O conteúdo é fornecido 'como está', para fins educacionais e informativos. Não nos responsabilizamos por perdas ou danos resultantes da aplicação prática das técnicas aqui descritas em ambientes de produção sem a devida validação."
+    },
+    {
+      "heading": "4. Alterações nos Termos",
+      "text": "Reservamo-nos o direito de atualizar estes termos a qualquer momento, refletindo melhorias e mudanças na legislação vigente."
+    }
+  ]
+}

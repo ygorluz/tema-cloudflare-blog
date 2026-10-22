@@ -1,0 +1,7 @@
+[
+  { "id": "tecnologia", "name": "Tecnologia", "description": "Engenharia de software, arquitetura de sistemas e novas ferramentas.", "color": "#2563eb" },
+  { "id": "edge-computing", "name": "Edge Computing", "description": "Cloudflare Workers, D1, KV, Pages e infraestrutura moderna.", "color": "#f38020" },
+  { "id": "ia", "name": "Inteligência Artificial", "description": "Modelos LLMs, agentes autônomos e IA aplicada.", "color": "#7c3aed" },
+  { "id": "performance", "name": "Performance", "description": "Core Web Vitals, otimizações e velocidade máxima de renderização.", "color": "#059669" },
+  { "id": "carreira", "name": "Carreira & Gestão", "description": "Cultura técnica, produtividade e evolução profissional.", "color": "#db2777" }
+]

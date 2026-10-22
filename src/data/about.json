@@ -1,0 +1,19 @@
+{
+  "title": "Sobre Nós",
+  "subtitle": "Conectando desenvolvedores e líderes técnicos ao estado da arte em tecnologia e infraestrutura moderna.",
+  "heroImage": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200&auto=format&fit=crop&q=80",
+  "content": [
+    "O Cloudflare Editorial nasceu para ser um espaço de reflexão aprofundada sobre arquitetura de software, computação de borda (edge), desenvolvimento Jamstack com Astro e aplicações reais de inteligência artificial.",
+    "Nossa missão é fugir do superficial. Cada ensaio, artigo e guia prático é escrito com rigor técnico, trazendo exemplos de código testados e insights arquiteturais que ajudam equipes a construir produtos escaláveis e ultrarrápidos.",
+    "Acreditamos em uma web aberta, acessível, segura e orientada a performance."
+  ],
+  "mission": {
+    "title": "Nossa Missão",
+    "description": "Publicar conteúdo técnico de excelência que inspire e capacite engenheiros a criarem sistemas mais eficientes, resilientes e sustentáveis."
+  },
+  "values": [
+    { "title": "Rigor Técnico", "description": "Código testado, benchmarks reais e fundamentos claros." },
+    { "title": "Performance Obsessiva", "description": "Menos JavaScript cliente, mais computação na borda e entrega estática veloz." },
+    { "title": "Código Aberto", "description": "Apoio a ferramentas livres, interoperabilidade e transparência editorial." }
+  ]
+}

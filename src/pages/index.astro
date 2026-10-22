@@ -1,0 +1,483 @@
+---
+import MarketingLayout from "../layouts/MarketingLayout.astro";
+import FAQ from "../components/FAQ.astro";
+import { getCollection, type CollectionEntry } from "astro:content";
+import { BlogCard } from "../components/blog/index";
+import { StackMarquee, Credibility } from "../components/landing/index";
+import { t } from "../i18n/ui";
+import { Icon } from "astro-icon/components";
+import siteConfigData from "../data/siteConfig.json";
+import categoriesData from "../data/categories.json";
+
+const locale = (Astro.currentLocale || "pt-BR") as "pt-BR";
+
+const allPosts: CollectionEntry<"blog">[] = await getCollection("blog");
+const posts = allPosts
+  .filter((p) => !p.data.draft)
+  .sort(
+    (a, b) =>
+      new Date(b.data.publishDate).getTime() -
+      new Date(a.data.publishDate).getTime(),
+  );
+
+const featuredPost = posts.find((p) => p.data.featured) || posts[0];
+const recentPosts = posts.filter((p) => p.id !== featuredPost?.id).slice(0, 6);
+
+const stackEntries = (await getCollection("stack"))
+  .sort(
+    (a: CollectionEntry<"stack">, b: CollectionEntry<"stack">) =>
+      a.data.order - b.data.order,
+  )
+  .map((entry: CollectionEntry<"stack">) => entry.data);
+---
+
+<MarketingLayout
+  title={siteConfigData.name}
+  description={siteConfigData.description}
+  locale={locale}
+  path="/"
+>
+  <!-- Hero Editorial -->
+  <section class="editorial-hero container py-16">
+    <div class="editorial-hero__content">
+      <div class="editorial-hero__badge">
+        <span class="editorial-hero__dot"></span>
+        <span>Publicação Técnica Independente</span>
+      </div>
+      <h1 class="editorial-hero__title">
+        {siteConfigData.name}
+      </h1>
+      <p class="editorial-hero__lead">
+        {siteConfigData.description}
+      </p>
+
+      <div class="editorial-hero__actions">
+        <a href="/blog" class="btn btn--primary">
+          <span>Explorar Todos os Artigos</span>
+          <Icon name="lucide:arrow-right" class="btn__icon" />
+        </a>
+        <button type="button" class="btn btn--secondary" data-search-trigger>
+          <Icon name="lucide:search" class="btn__icon" />
+          <span>Buscar no blog</span>
+          <kbd class="btn__kbd">⌘K</kbd>
+        </button>
+      </div>
+
+      <!-- Categories Navigation -->
+      <nav class="editorial-hero__categories" aria-label="Categorias de artigos">
+        <span class="editorial-hero__cat-label">Tópicos:</span>
+        {categoriesData.map((cat) => (
+          <a href={`/blog?tag=${cat.id}`} class="cat-pill">
+            {cat.name}
+          </a>
+        ))}
+      </nav>
+    </div>
+  </section>
+
+  <!-- Featured Post -->
+  {featuredPost && (
+    <section class="container pb-16">
+      <div class="section-badge-header">
+        <span class="section-tag">Destaque da Edição</span>
+      </div>
+      <div class="featured-wrapper">
+        <BlogCard
+          post={featuredPost}
+          variant="list"
+          locale={locale}
+          headingLevel="h2"
+        />
+      </div>
+    </section>
+  )}
+
+  <!-- Recent Articles Grid -->
+  {recentPosts.length > 0 && (
+    <section class="container py-12 border-t border-[var(--color-border)]">
+      <div class="section-header-flex">
+        <div>
+          <h2 class="section-title">Últimos Artigos & Ensaios</h2>
+          <p class="section-subtitle">
+            Análises profundas, arquitetura e engenharia publicadas recentemente.
+          </p>
+        </div>
+        <a href="/blog" class="link-all">
+          <span>Ver acervo completo</span>
+          <Icon name="lucide:arrow-right" />
+        </a>
+      </div>
+
+      <div class="articles-grid">
+        {recentPosts.map((post) => (
+          <BlogCard
+            post={post}
+            variant="grid"
+            locale={locale}
+            headingLevel="h3"
+          />
+        ))}
+      </div>
+    </section>
+  )}
+
+  <!-- Newsletter / Leituras selecionadas -->
+  <section class="container py-16">
+    <div class="newsletter-card">
+      <div class="newsletter-card__content">
+        <span class="newsletter-tag">Newsletter Semanal</span>
+        <h2 class="newsletter-title">Acompanhe nossas descobertas de engenharia</h2>
+        <p class="newsletter-desc">
+          Sem spam. Enviamos a cada duas semanas um resumo com nossos ensaios técnicos, benchmarks de edge computing e dicas de arquitetura web.
+        </p>
+        <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Obrigado por se inscrever!');">
+          <input
+            type="email"
+            placeholder="seu.email@exemplo.com"
+            required
+            class="newsletter-input"
+            aria-label="Seu endereço de e-mail"
+          />
+          <button type="submit" class="btn btn--primary">
+            Inscrever-se
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Edge Stats Strip -->
+  <section class="container py-10">
+    <header class="section-head text-center">
+      <p class="section-head__eyebrow">Tecnologia & Infraestrutura</p>
+      <h2 class="section-head__title">Distribuído na Borda Global da Cloudflare</h2>
+      <p class="section-head__lead">
+        Zero dependência de servidores pesados. HTML estático puro servido a partir de mais de 300 data centers.
+      </p>
+    </header>
+    <Credibility
+      stats={[
+        { value: "100%", label: "Estático & Edge" },
+        { value: "< 50ms", label: "TTFB Global" },
+        { value: "A11y", label: "Padrão WCAG AA" },
+      ]}
+      logos={[
+        { name: "Astro v7", src: undefined },
+        { name: "Cloudflare Pages", src: undefined },
+        { name: "TailwindCSS v4", src: undefined },
+      ]}
+    />
+  </section>
+
+  {stackEntries.length > 0 && (
+    <section class="container py-12">
+      <header class="section-head text-center">
+        <h3 class="section-head__title text-lg font-semibold">Ecossistema Técnico</h3>
+      </header>
+      <StackMarquee items={stackEntries} />
+    </section>
+  )}
+
+  <!-- FAQ Section -->
+  <FAQ
+    title="Dúvidas Frequentes sobre o Blog"
+    items={[
+      {
+        question: "Qual é a frequência de publicação dos artigos?",
+        answer:
+          "Publicamos artigos aprofundados semanalmente, com foco em qualidade editorial e precisão técnica em vez de quantidade diária.",
+      },
+      {
+        question: "Como o blog atinge performance e notas 100 no Lighthouse?",
+        answer:
+          "Utilizamos Astro v7 gerando páginas puramente estáticas, CSS minimalista via tokens, imagens otimizadas e renderização edge nativa pela Cloudflare.",
+      },
+      {
+        question: "Posso utilizar os códigos disponibilizados nos artigos?",
+        answer:
+          "Sim! Todos os snippets e projetos de exemplo compartilhados em nossos tutoriais estão sob licença de código aberto MIT.",
+      },
+      {
+        question: "Como posso enviar uma sugestão ou colaborar?",
+        answer:
+          "Você pode entrar em contato diretamente pela nossa página de contato ou sugerir tópicos através do repositório no GitHub.",
+      },
+    ]}
+  />
+</MarketingLayout>
+
+<style>
+  .editorial-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .editorial-hero__content {
+    max-width: 52rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-md);
+  }
+
+  .editorial-hero__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.85rem;
+    border-radius: var(--radius-full);
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    letter-spacing: 0.02em;
+  }
+
+  .editorial-hero__dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: var(--radius-full);
+    background: #10b981;
+    box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
+  }
+
+  .editorial-hero__title {
+    margin: 0;
+    font-size: clamp(2.5rem, 5.5vw, 4.25rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.08;
+    color: var(--color-text-primary);
+  }
+
+  .editorial-hero__lead {
+    margin: 0;
+    font-size: clamp(1.0625rem, 2vw, 1.25rem);
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    max-width: 44rem;
+  }
+
+  .editorial-hero__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: var(--space-sm);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.4rem;
+    border-radius: var(--radius-full);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .btn--primary {
+    background: var(--color-text-primary);
+    color: var(--color-bg-primary);
+    border: 1px solid var(--color-text-primary);
+  }
+
+  .btn--primary:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+  }
+
+  .btn--secondary {
+    background: var(--color-bg-secondary);
+    color: var(--color-text-primary);
+    border: 1px solid var(--color-border);
+  }
+
+  .btn--secondary:hover {
+    background: var(--color-bg-tertiary);
+    border-color: var(--color-text-primary);
+  }
+
+  .btn__icon {
+    width: 1.125rem;
+    height: 1.125rem;
+  }
+
+  .btn__kbd {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    padding: 0.15rem 0.35rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-primary);
+    color: var(--color-text-secondary);
+  }
+
+  .editorial-hero__categories {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: var(--space-md);
+  }
+
+  .editorial-hero__cat-label {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+  }
+
+  .cat-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.3rem 0.75rem;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--color-border);
+    background: transparent;
+    font-size: 0.8125rem;
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    transition: all 0.15s ease;
+  }
+
+  .cat-pill:hover {
+    color: var(--color-text-primary);
+    border-color: var(--color-text-primary);
+    background: var(--color-bg-secondary);
+  }
+
+  .section-badge-header {
+    margin-bottom: var(--space-md);
+  }
+
+  .section-tag {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-brand-primary);
+  }
+
+  .featured-wrapper {
+    width: 100%;
+  }
+
+  .section-header-flex {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: var(--space-xl);
+    gap: var(--space-md);
+    flex-wrap: wrap;
+  }
+
+  .section-title {
+    margin: 0;
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .section-subtitle {
+    margin: 0.25rem 0 0;
+    color: var(--color-text-secondary);
+    font-size: 0.95rem;
+  }
+
+  .link-all {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    color: var(--color-brand-primary);
+    text-decoration: none;
+  }
+
+  .link-all:hover {
+    text-decoration: underline;
+  }
+
+  .articles-grid {
+    display: grid;
+    gap: var(--space-lg);
+    grid-template-columns: repeat(auto-fill, minmax(19rem, 1fr));
+  }
+
+  .newsletter-card {
+    background: linear-gradient(135deg, color-mix(in oklab, var(--color-bg-secondary) 90%, #f38020 10%), var(--color-bg-secondary));
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-2xl);
+    padding: clamp(2rem, 5vw, 4rem);
+    text-align: center;
+    display: flex;
+    justify-content: center;
+  }
+
+  .newsletter-card__content {
+    max-width: 36rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-sm);
+  }
+
+  .newsletter-tag {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-brand-primary);
+  }
+
+  .newsletter-title {
+    margin: 0;
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+
+  .newsletter-desc {
+    margin: 0;
+    color: var(--color-text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  .newsletter-form {
+    display: flex;
+    gap: 0.5rem;
+    width: 100%;
+    margin-top: var(--space-md);
+  }
+
+  .newsletter-input {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-primary);
+    color: var(--color-text-primary);
+    font-size: 0.9375rem;
+    outline: none;
+  }
+
+  .newsletter-input:focus {
+    border-color: var(--color-brand-primary);
+  }
+
+  @media (max-width: 36rem) {
+    .newsletter-form {
+      flex-direction: column;
+    }
+  }
+</style>

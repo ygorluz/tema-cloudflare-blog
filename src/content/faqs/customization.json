@@ -1,0 +1,7 @@
+{
+  "question": "Como personalizar as cores e identidade do tema?",
+  "answer": "Edite o arquivo `src/data/siteConfig.json` para alterar nome, descrição, links sociais e cores primárias/secundárias em conformidade com o sistema de design tokens.",
+  "category": "customization",
+  "order": 2,
+  "locale": "pt-BR"
+}
